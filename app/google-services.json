@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "790010055338",
+    "firebase_url": "https://blaze-7e79e.firebaseio.com",
+    "project_id": "blaze-7e79e",
+    "storage_bucket": "blaze-7e79e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790010055338:android:9b6619c96ae51ec6",
+        "android_client_info": {
+          "package_name": "me.ravitripathi.blaze"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790010055338-009s4e4k8oonntavfg4mi652abmsnkuh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.ravitripathi.blaze",
+            "certificate_hash": "b8a003c8592de69a7dfaf4670aa8bbef766ca603"
+          }
+        },
+        {
+          "client_id": "790010055338-3i3hho0ec22rabqoahl4poj1h7u2nkl2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBFJt1GB62jiZBusrwC2_TcrfOkafPNOs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790010055338-3i3hho0ec22rabqoahl4poj1h7u2nkl2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

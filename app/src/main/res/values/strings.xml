@@ -1,0 +1,11 @@
+<resources>
+    <string name="webclientID">790010055338-3i3hho0ec22rabqoahl4poj1h7u2nkl2.apps.googleusercontent.com</string>
+    <string name="app_name">Blaze</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Upload</string>
+    <string name="title_notifications">Account</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
