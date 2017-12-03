@@ -38,16 +38,16 @@ public class accountFrag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_account, container, false);
-        Button b = (Button) v.findViewById(R.id.logout);
+        Button b = v.findViewById(R.id.logout);
         String name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        TextView t = (TextView)v.findViewById(R.id.name);
+        TextView t = v.findViewById(R.id.name);
         t.setText(name);
         Uri photo = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
 
         RequestOptions options = new RequestOptions()
                 .placeholder(android.R.drawable.sym_def_app_icon);
 
-        CircleImageView c = (CircleImageView) v.findViewById(R.id.circleImageView);
+        CircleImageView c = v.findViewById(R.id.circleImageView);
         Glide.with(getActivity())
                 .load(photo)
                 .apply(options)

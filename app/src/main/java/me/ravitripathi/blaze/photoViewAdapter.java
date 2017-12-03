@@ -29,7 +29,7 @@ public class photoViewAdapter extends RecyclerView.Adapter<photoViewAdapter.arcV
 
         public arcVH(View view){
             super(view);
-            imageView = (ImageView) view.findViewById(R.id.imageView);
+            imageView = view.findViewById(R.id.imageView);
         }
     }
 

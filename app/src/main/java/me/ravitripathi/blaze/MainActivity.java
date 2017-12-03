@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         FirebaseMessaging.getInstance().subscribeToTopic("arc");
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 //        mTextMessage = (TextView) findViewById(R.id.message);
-         navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+         navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 

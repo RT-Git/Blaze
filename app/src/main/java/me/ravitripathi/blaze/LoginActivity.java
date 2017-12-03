@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +51,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (mAuth.getCurrentUser() != null)
             startActivity(new Intent(this, MainActivity.class));
         initGoogleSignIn();
+
+
     }
 
     private void initGoogleSignIn() {
@@ -67,7 +70,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         //Set up the button and listener
 
-        SignInButton signInButton = (SignInButton) findViewById(R.id.google);
+        SignInButton signInButton = findViewById(R.id.google);
         TextView textView = (TextView) signInButton.getChildAt(0);
         textView.setTextColor(Color.BLUE);
         textView.setTextSize(16);
@@ -79,6 +82,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 signIn();
             }
         });
+
 
     }
 

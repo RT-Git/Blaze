@@ -68,9 +68,9 @@ public class uploadFrag extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_upload, container, false);
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progress);
+        progressBar = view.findViewById(R.id.progress);
         progressBar.setVisibility(View.GONE);
-        Button pick = (Button) view.findViewById(R.id.pick);
+        Button pick = view.findViewById(R.id.pick);
 
 
         pick.setOnClickListener(new View.OnClickListener() {
@@ -81,9 +81,9 @@ public class uploadFrag extends Fragment {
         });
 
 
-        button = (Button) view.findViewById(R.id.button);
-        link = (TextView) view.findViewById(R.id.link);
-        imageView = (ImageView) view.findViewById(R.id.image);
+        button = view.findViewById(R.id.button);
+        link = view.findViewById(R.id.link);
+        imageView = view.findViewById(R.id.image);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

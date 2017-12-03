@@ -48,11 +48,11 @@ public class homeFrag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
-        progressBar = (ProgressBar) v.findViewById(R.id.pro);
+        progressBar = v.findViewById(R.id.pro);
 
 
 
-        final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.picsV);
+        final RecyclerView recyclerView = v.findViewById(R.id.picsV);
         final photoViewAdapter pVAdapter = new photoViewAdapter(photoItemList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
