@@ -46,6 +46,7 @@ dependencies {
     compile 'com.nononsenseapps:filepicker:4.1.0'
 
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.airbnb.android:lottie:2.3.0'
     testCompile 'junit:junit:4.12'
 }
 
