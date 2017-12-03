@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="me.ravitripathi.blaze.LoginActivity">
 
 
@@ -26,6 +28,9 @@
         android:layout_height="wrap_content" />
 
     <EditText
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:shadowColor="@color/cardview_light_background"
         android:layout_below="@id/or"
         android:layout_margin="15dp"
         android:id="@+id/phone"
@@ -35,11 +40,48 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:id="@+id/submit"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit Phone Number"
         android:layout_below="@id/phone"
         />
+
+    <LinearLayout
+        android:id="@+id/veri"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_below="@id/submit"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/code"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:hint="Enter code"
+            android:shadowColor="@color/cardview_light_background"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Submit"
+            android:id="@+id/veriB"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:visibility="gone"
+        android:layout_below="@id/veri"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:lottie_fileName="sms_passcode.json"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true" />
 </RelativeLayout>
 

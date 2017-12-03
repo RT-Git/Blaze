@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "790010055338-jrcome58j5h8hjlj51etubd6oknv5rhh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.ravitripathi.blaze",
+            "certificate_hash": "149635baa7417495350c90581f62e8b04882db94"
+          }
+        },
+        {
           "client_id": "790010055338-009s4e4k8oonntavfg4mi652abmsnkuh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
