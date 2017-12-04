@@ -1,9 +1,12 @@
 package me.ravitripathi.blaze;
 
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -50,17 +53,20 @@ public class homeFrag extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         progressBar = v.findViewById(R.id.pro);
 
+        Context c = getActivity();
 
 
         final RecyclerView recyclerView = v.findViewById(R.id.picsV);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            recyclerView.setLayoutManager(new GridLayoutManager(c, 1));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(c, 2));
+        }
         final photoViewAdapter pVAdapter = new photoViewAdapter(photoItemList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
+    
         recyclerView.setAdapter(pVAdapter);
 
-        if(photoItemList.isEmpty()){
+        if (photoItemList.isEmpty()) {
             progressBar.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
 
@@ -80,7 +86,7 @@ public class homeFrag extends Fragment {
                     photoItem item = new photoItem();
                     item.setUri(url);
                     photoItemList.add(item);
-                    if(!photoItemList.isEmpty()){
+                    if (!photoItemList.isEmpty()) {
                         progressBar.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
                     }
