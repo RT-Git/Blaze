@@ -1,10 +1,12 @@
 package me.ravitripathi.blaze;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +44,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 
@@ -53,7 +57,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     GoogleApiClient mGoogleApiClient;
     int RC_SIGN_IN = 9001;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
-
+    LottieAnimationView lottieAnimationView;
+    ImageView next;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +69,20 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             startActivity(new Intent(this, MainActivity.class));
         initGoogleSignIn();
 
+        next = findViewById(R.id.next);
+        next.setVisibility(View.GONE);
 
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+            }
+        });
+        lottieAnimationView = findViewById(R.id.animation_view);
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
 
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
@@ -85,6 +102,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
 
             @Override
+            public void onCodeAutoRetrievalTimeOut(String s) {
+//                super.onCodeAutoRetrievalTimeOut(s);
+                Snackbar.make(findViewById(R.id.relLay), "Timed out, please try again", Snackbar.LENGTH_SHORT).show();
+            }
+
+            @Override
             public void onCodeSent(String verificationId,
                                    PhoneAuthProvider.ForceResendingToken token) {
                 // The SMS verification code has been sent to the provided phone number, we
@@ -99,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 // ...
             }
         };
-        final LottieAnimationView lottieAnimationView = findViewById(R.id.animation_view);
+
         final EditText editText = findViewById(R.id.phone);
         Button button = findViewById(R.id.submit);
         button.setOnClickListener(new View.OnClickListener() {
@@ -145,10 +168,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = task.getResult().getUser();
-
-                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(i);
+                            lottieAnimationView.setAnimation(R.raw.completed_process);
+                            next.setVisibility(View.VISIBLE);
                             // ...
                         } else {
                             // Sign in failed, display a message and update the UI

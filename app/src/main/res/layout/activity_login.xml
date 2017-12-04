@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/relLay"
     android:layout_height="match_parent"
     android:background="#000000"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -83,5 +84,15 @@
         app:lottie_fileName="sms_passcode.json"
         app:lottie_loop="true"
         app:lottie_autoPlay="true" />
+
+
+    <ImageView
+        android:id="@+id/next"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/animation_view"
+        android:src="@drawable/play"
+        />
 </RelativeLayout>
 
