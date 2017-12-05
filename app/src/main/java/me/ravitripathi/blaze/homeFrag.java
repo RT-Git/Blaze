@@ -63,7 +63,7 @@ public class homeFrag extends Fragment {
             recyclerView.setLayoutManager(new GridLayoutManager(c, 2));
         }
         final photoViewAdapter pVAdapter = new photoViewAdapter(photoItemList);
-    
+
         recyclerView.setAdapter(pVAdapter);
 
         if (photoItemList.isEmpty()) {
