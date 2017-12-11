@@ -16,6 +16,6 @@ A sample app which implements a couple of Firebase SDK functionalities:
 ### Firebase Cloud Notifications and Cloud Functions
 * Receive notification on all signed-in devices when upload is made from any one of them (using same account)
 
-#### Firebase Remote Config
+### Firebase Remote Config
 * Set Login Screen background Remotely using Firebase Remote Config
 
