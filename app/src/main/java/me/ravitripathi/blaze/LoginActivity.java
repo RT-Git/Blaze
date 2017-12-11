@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -153,50 +154,44 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        long cacheExpiration = 3600; // 1 hour in seconds.
+        // If your app is using developer mode, cacheExpiration is set to 0, so each fetch will
+        // retrieve values from the service.
+        if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
+            cacheExpiration = 0;
+        }
+
         // Create a Remote Config Setting to enable developer mode, which you can use to increase
         // the number of fetches available per hour during development. See Best Practices in the
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
                 .setDeveloperModeEnabled(BuildConfig.DEBUG)
                 .build();
         mFirebaseRemoteConfig.setConfigSettings(configSettings);
-        Glide.with(this)
-                .load(mFirebaseRemoteConfig.getString(imageURL))
-                .into(back);
-
+        mFirebaseRemoteConfig.setDefaults(R.xml.remoteconfig_default);
+        mFirebaseRemoteConfig.fetch(cacheExpiration)
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // After config data is successfully fetched, it must be activated before newly fetched
+                            // values are returned.
+                            mFirebaseRemoteConfig.activateFetched();
+                            String url = mFirebaseRemoteConfig.getString(imageURL);
+                            Toast.makeText(LoginActivity.this, "Fetch Succeeded: " + url,
+                                    Toast.LENGTH_SHORT).show();
+                            back.setVisibility(View.VISIBLE);
+                            Glide.with(LoginActivity.this)
+                                    .load(url)
+                                    .into(back);
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Fetch Failed",
+                                    Toast.LENGTH_SHORT).show();
+                            back.setVisibility(View.GONE);
+                        }
+                    }
+                });
     }
 
-//    private void fetchBack(){
-//        long cacheExpiration = 3600; // 1 hour in seconds.
-//        // If your app is using developer mode, cacheExpiration is set to 0, so each fetch will
-//        // retrieve values from the service.
-//        if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
-//            cacheExpiration = 0;
-//        }
-//
-//        // [START fetch_config_with_callback]
-//        // cacheExpirationSeconds is set to cacheExpiration here, indicating the next fetch request
-//        // will use fetch data from the Remote Config service, rather than cached parameter values,
-//        // if cached parameter values are more than cacheExpiration seconds old.
-//        // See Best Practices in the README for more information.
-//        mFirebaseRemoteConfig.fetch(cacheExpiration)
-//                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isSuccessful()) {
-//                            Toast.makeText(MainActivity.this, "Fetch Succeeded",
-//                                    Toast.LENGTH_SHORT).show();
-//
-//                            // After config data is successfully fetched, it must be activated before newly fetched
-//                            // values are returned.
-//                            mFirebaseRemoteConfig.activateFetched();
-//                        } else {
-//                            Toast.makeText(MainActivity.this, "Fetch Failed",
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
-//                        displayWelcomeMessage();
-//                    }
-//                });
-//        // [END fetch_config_with_callback]
 
     private void startPhoneNumberVerification(String phoneNumber) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
