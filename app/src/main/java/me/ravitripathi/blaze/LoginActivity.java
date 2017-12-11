@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -43,6 +44,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -51,27 +54,38 @@ import java.util.concurrent.TimeUnit;
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     String mVerificationId;
-    private PhoneAuthProvider.ForceResendingToken mResendToken;
     public ProgressDialog mProgressDialog;
     private FirebaseAuth mAuth;
     GoogleApiClient mGoogleApiClient;
     int RC_SIGN_IN = 9001;
+    FirebaseRemoteConfig mFirebaseRemoteConfig;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     LottieAnimationView lottieAnimationView;
-    ImageView next;
+    ImageView next, back;
+    Button button, veri;
+    private static final String imageURL = "loginBack";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mAuth = FirebaseAuth.getInstance();
 
+
+        mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null)
             startActivity(new Intent(this, MainActivity.class));
+
         initGoogleSignIn();
 
         next = findViewById(R.id.next);
-        next.setVisibility(View.GONE);
+        lottieAnimationView = findViewById(R.id.animation_view);
+        button = findViewById(R.id.submit);
+        veri = findViewById(R.id.veriB);
+        back = findViewById(R.id.background);
+        final EditText editText = findViewById(R.id.phone);
+        final EditText e = findViewById(R.id.code);
 
+        next.setVisibility(View.GONE);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,10 +94,26 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 startActivity(i);
             }
         });
-        lottieAnimationView = findViewById(R.id.animation_view);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String num = editText.getText().toString();
+                lottieAnimationView.setVisibility(View.VISIBLE);
+                num = num.trim();
+                startPhoneNumberVerification(num);
+            }
+        });
+
+        veri.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String code = e.getText().toString().trim();
+                verifyPhoneNumberWithCode(mVerificationId, code);
+            }
+        });
+
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
-
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
                 signInWithPhoneAuthCredential(credential);
@@ -117,34 +147,56 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                 // Save verification ID and resending token so we can use them later
                 mVerificationId = verificationId;
-                mResendToken = token;
-
                 // ...
             }
         };
 
-        final EditText editText = findViewById(R.id.phone);
-        Button button = findViewById(R.id.submit);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String num = editText.getText().toString();
-                lottieAnimationView.setVisibility(View.VISIBLE);
-                num = num.trim();
-                startPhoneNumberVerification(num);
-            }
-        });
 
-        final EditText e = findViewById(R.id.code);
-        Button veri = findViewById(R.id.veriB);
-        veri.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String code = e.getText().toString().trim();
-                verifyPhoneNumberWithCode(mVerificationId, code);
-            }
-        });
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        // Create a Remote Config Setting to enable developer mode, which you can use to increase
+        // the number of fetches available per hour during development. See Best Practices in the
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                .build();
+        mFirebaseRemoteConfig.setConfigSettings(configSettings);
+        Glide.with(this)
+                .load(mFirebaseRemoteConfig.getString(imageURL))
+                .into(back);
+
     }
+
+//    private void fetchBack(){
+//        long cacheExpiration = 3600; // 1 hour in seconds.
+//        // If your app is using developer mode, cacheExpiration is set to 0, so each fetch will
+//        // retrieve values from the service.
+//        if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
+//            cacheExpiration = 0;
+//        }
+//
+//        // [START fetch_config_with_callback]
+//        // cacheExpirationSeconds is set to cacheExpiration here, indicating the next fetch request
+//        // will use fetch data from the Remote Config service, rather than cached parameter values,
+//        // if cached parameter values are more than cacheExpiration seconds old.
+//        // See Best Practices in the README for more information.
+//        mFirebaseRemoteConfig.fetch(cacheExpiration)
+//                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isSuccessful()) {
+//                            Toast.makeText(MainActivity.this, "Fetch Succeeded",
+//                                    Toast.LENGTH_SHORT).show();
+//
+//                            // After config data is successfully fetched, it must be activated before newly fetched
+//                            // values are returned.
+//                            mFirebaseRemoteConfig.activateFetched();
+//                        } else {
+//                            Toast.makeText(MainActivity.this, "Fetch Failed",
+//                                    Toast.LENGTH_SHORT).show();
+//                        }
+//                        displayWelcomeMessage();
+//                    }
+//                });
+//        // [END fetch_config_with_callback]
 
     private void startPhoneNumberVerification(String phoneNumber) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(

@@ -9,6 +9,16 @@
     tools:context="me.ravitripathi.blaze.LoginActivity">
 
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/background"
+
+        android:src="@drawable/common_full_open_on_phone"
+        android:alpha="0.1"
+        />
+
+
     <com.google.android.gms.common.SignInButton
 
         android:id="@+id/google"
