@@ -6,5 +6,9 @@
     <string name="title_dashboard">Upload</string>
     <string name="title_notifications">Account</string>
 
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 
 </resources>
