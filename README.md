@@ -1,6 +1,9 @@
 # Blaze
 A sample app which implements a couple of Firebase SDK functionalities:
 
+## Development Discontinued
+This code was originally written about an year back. I'm currently working on an [iOS port](https://github.com/ravitripathi/Blaze-iOS) for it. Also I've begun work on re-writing this app in Kotlin over [here](https://github.com/ravitripathi/Blaze-Kotlin)
+
 ### Firebase Auth
 *  Authenticate and Sign-in using Google Sign-In
 *  Authenticate using Phone (**Firebase Phone Auth**)
